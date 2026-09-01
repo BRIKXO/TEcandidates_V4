@@ -25,7 +25,7 @@ You only need:
 
 - **Podman** or Docker installed on your Linux machine.
 - **SRA Toolkit** to download the test FASTQ files (optional, if you already have data).
-- At least **10 GB of free disk space** for the test data and results.
+- At least **31 GB of free disk space** for the test data and results.
 
 ---
 
