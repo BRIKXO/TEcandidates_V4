@@ -36,4 +36,5 @@ Clone this repository and build the container image:
 ```bash
 git clone https://github.com/BRIKXO/TEcandidates_V4.git
 cd TEcandidates_V4
+sudo apt install podman
 podman build -t tecandidates:latest .
