@@ -1,0 +1,7 @@
+name: tecandidates
+dependencies:
+  - bowtie2
+  - bedtools
+  - samtools
+  - trinity
+  - time
