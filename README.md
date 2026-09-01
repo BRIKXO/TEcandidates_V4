@@ -1,6 +1,6 @@
 # TEcandidates V4
 
-TEcandidates is a pipeline to include transposable elements (TEs) in RNA-seq differential expression analysis.
+TEcandidates is a pipeline to include transposable elements (TEs) in RNA‑seq differential expression analysis.
 
 This repository contains a **modernized version** of the original TEcandidates pipeline, containerized with Podman/Docker to ensure reproducibility and portability across different computing environments.
 
@@ -11,11 +11,11 @@ This repository contains a **modernized version** of the original TEcandidates p
 - Containerized using **Podman** (or Docker)
 - Removed **BioPerl** dependency
 - Updated for compatibility with modern versions of Bedtools, Bowtie2, Samtools and Trinity
-- Fixed BAM sorting and indexing during pre-mapping
+- Fixed BAM sorting and indexing during pre‑mapping
 - Automatic correction of read names for Trinity (`/1` and `/2` suffixes)
 - Supports multiple samples without recreating intermediate files
 - Added execution time report
-- Maintains strand-specific candidate selection (`bedtools coverage -s -a`) for higher specificity
+- Maintains strand‑specific candidate selection (`bedtools coverage -s -a`) for higher specificity
 
 ---
 
@@ -24,7 +24,7 @@ This repository contains a **modernized version** of the original TEcandidates p
 You only need:
 
 - **Podman** or Docker installed on your Linux machine.
-- **SRA Toolkit** to download the test FASTQ files.
+- **SRA Toolkit** to download the test FASTQ files (optional, if you already have data).
 - At least **10 GB of free disk space** for the test data and results.
 
 ---
@@ -36,52 +36,53 @@ Clone this repository and build the container image:
 ```bash
 git clone https://github.com/BRIKXO/TEcandidates_V4.git
 cd TEcandidates_V4
-sudo apt install podman
 podman build -t tecandidates:latest .
+
+# TEcandidates — Test Dataset and Pipeline
+
+If you prefer Docker, replace `podman` with `docker` in all commands.
 
 ---
 
 ## Download test data
 
-We will use a real dataset from Drosophila melanogaster (Ohtani et al., 2013), already used in the original TEcandidates publication.
+We will use a real dataset from *Drosophila melanogaster* (Ohtani et al., 2013), already used in the original TEcandidates publication.
 
-### 1. Create a test/ folder
+### 1. Create a `test/` folder
+
 ```bash
 mkdir -p test
 cd test
+```
 
----
-Installation / Build
-Clone this repository and build the container image:
+### 2. Download the reference genome (dm3)
 
-bash
-git clone https://github.com/BRIKXO/TEcandidates_V4.git
-cd TEcandidates_V4
-podman build -t tecandidates:latest .
-Download test data
-We will use a real dataset from Drosophila melanogaster (Ohtani et al., 2013), already used in the original TEcandidates publication.
+Download the *Drosophila melanogaster* reference genome (dm3):
 
-1. Create a test/ folder
-bash
-mkdir -p test
-cd test
-2. Download the reference genome (dm3)
-Download dm3.fa.gz from UCSC Genome Browser:
-
-bash
+```bash
 wget https://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm3.fa.gz
 gunzip dm3.fa.gz
-This will produce dm3.fa. Rename it to dm3.fasta if necessary.
+```
 
-3. Download the TE annotation
-Place the RepeatMasker annotation file dm3_rmsk_TE.gff3 inside the same test/ folder. If you don't have it, you can obtain it from the original TEcandidates repository:
+This will produce `dm3.fa`. Rename it to `dm3.fasta` if necessary:
 
-bash
+```bash
+mv dm3.fa dm3.fasta
+```
+
+### 3. Download the TE annotation
+
+Place the RepeatMasker annotation file `dm3_rmsk_TE.gff3` inside the same `test/` folder:
+
+```bash
 wget http://mobilomics.cl/tecandidates/files/dm3_rmsk_TE.gff3
-4. Download the RNA-seq reads (FASTQ) using SRA Toolkit
-Install SRA Toolkit if you don't have it, then run prefetch and fasterq-dump for both samples:
+```
 
-bash
+### 4. Download the RNA-seq reads (FASTQ) using SRA Toolkit
+
+Install [SRA Toolkit](https://github.com/ncbi/sra-tools) if you don't have it, then run:
+
+```bash
 # Control sample
 prefetch SRR851837
 fasterq-dump --split-files SRR851837
@@ -89,23 +90,32 @@ fasterq-dump --split-files SRR851837
 # Treatment sample
 prefetch SRR851838
 fasterq-dump --split-files SRR851838
-After that, move the resulting FASTQ files to the test/ folder:
+```
 
-bash
+Move the resulting FASTQ files to the `test/` folder:
+
+```bash
 mv SRR851837*.fastq test/
 mv SRR851838*.fastq test/
-Now your test/ directory should contain:
+```
 
-text
+Your `test/` directory should now contain:
+
+```text
 test/
 ├── dm3.fasta
 ├── dm3_rmsk_TE.gff3
 ├── SRR851837.fastq
 └── SRR851838.fastq
-Run the pipeline
+```
+
+---
+
+## Run the pipeline
+
 From the repository root directory, execute:
 
-bash
+```bash
 mkdir -p output
 
 podman run --rm \
@@ -122,41 +132,60 @@ podman run --rm \
   -te=/project/test/dm3_rmsk_TE.gff3 \
   -N=1 \
   2>&1 | tee pipeline_test.log
-Note: With 8 threads and 6 GB of RAM, the expected execution time for this dataset is approximately 2 hours. If you have more resources, you can increase -t and -r.
+```
 
-Output files
-Inside output/candidateTE_analysis_coverage-0.3_length-900_N-1/ you will find:
+> **Note:** With 8 threads and 6 GB of RAM, the expected execution time for this dataset is approximately **2 hours**. If you have more resources, you can increase `-t` and `-r`.
 
-allcandidates_coverage-0.3_length-900_N-1.gff3 – Candidate TEs (expressed TEs)
+---
 
-repeatsToMask_coverage-0.3_length-900.gff3 – TEs that were masked
+## Output files
 
-dm3.fasta.masked – Masked reference genome ready for downstream analysis
+Inside:
 
-trinity_assemblies/ – De novo assemblies generated by Trinity
+```text
+output/candidateTE_analysis_coverage-0.3_length-900_N-1/
+```
 
-Bowtie2 index files for the masked genome
+you will find:
 
-Parameter description
-Parameter	Description
--t	Number of threads
--r	Maximum RAM (GB) for Trinity
--g	Genome FASTA file
--fq	Folder containing FASTQ files
--m	Mode: SE (single-end) or PE (paired-end)
--te	TE annotation in GFF3 format
--c	Minimum coverage of a TE by a contig
--l	Minimum TE length to consider
--N	Number of candidate TEs per family
-Important considerations
-FASTQ files must have .fastq extension.
+* `allcandidates_coverage-0.3_length-900_N-1.gff3` — Candidate TEs (expressed TEs)
+* `repeatsToMask_coverage-0.3_length-900.gff3` — TEs that were masked
+* `dm3.fasta.masked` — Masked reference genome ready for downstream analysis
+* `trinity_assemblies/` — *De novo* assemblies generated by Trinity
+* Bowtie2 index files for the masked genome
 
-Paired-end reads must have _1.fastq and _2.fastq extensions.
+---
 
-The GFF3 annotation must have the TE family name in column 9.
+## Parameter description
 
-Contact
-For questions or issues, open an issue in this repository.
+| Parameter | Description                                  |
+| --------- | -------------------------------------------- |
+| `-t`      | Number of threads                            |
+| `-r`      | Maximum RAM (GB) for Trinity                 |
+| `-g`      | Genome FASTA file                            |
+| `-fq`     | Folder containing FASTQ files                |
+| `-m`      | Mode: `SE` (single-end) or `PE` (paired-end) |
+| `-te`     | TE annotation in GFF3 format                 |
+| `-c`      | Minimum coverage of a TE by a contig         |
+| `-l`      | Minimum TE length to consider                |
+| `-N`      | Number of candidate TEs per family           |
 
-References
-Ohtani H, Iwasaki YW, Shibuya A, Siomi H, Siomi MC, Saito K. (2013). DmGTSF1 is necessary for Piwi-piRISC-mediated transcriptional transposon silencing in the Drosophila ovary. Genes Dev. 27(15):1656-61. doi: 10.1101/gad.221515.113
+---
+
+## Important considerations
+
+* FASTQ files must have the `.fastq` extension.
+* Paired-end reads must have `_1.fastq` and `_2.fastq` extensions.
+* The GFF3 annotation must have the TE family name in column 9.
+
+---
+
+## Contact
+
+For questions or issues, please open an issue in this repository.
+
+---
+
+## References
+
+Ohtani H, Iwasaki YW, Shibuya A, Siomi H, Siomi MC, Saito K. (2013). DmGTSF1 is necessary for Piwi-piRISC-mediated transcriptional transposon silencing in the *Drosophila* ovary. *Genes Dev.* 27(15):1656–61. doi: [10.1101/gad.221515.113](https://doi.org/10.1101/gad.221515.113)
