@@ -68,15 +68,7 @@ This will produce `dm3.fa`. Rename it to `dm3.fasta` if necessary:
 mv dm3.fa dm3.fasta
 ```
 
-### 3. Download the TE annotation
-
-Place the RepeatMasker annotation file `dm3_rmsk_TE.gff3` inside the same `test/` folder:
-
-```bash
-wget http://mobilomics.cl/tecandidates/files/dm3_rmsk_TE.gff3
-```
-
-### 4. Download the RNA-seq reads (FASTQ) using SRA Toolkit
+### 3. Download the RNA-seq reads (FASTQ) using SRA Toolkit
 
 Install [SRA Toolkit](https://github.com/ncbi/sra-tools) if you don't have it, then run:
 
