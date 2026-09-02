@@ -37,8 +37,7 @@ Clone this repository and build the container image:
 git clone https://github.com/BRIKXO/TEcandidates_V4.git
 cd TEcandidates_V4
 podman build -t tecandidates:latest .
-
----
+```
 
 ## TEcandidates — Test Dataset and Pipeline
 
@@ -46,6 +45,7 @@ If you prefer Docker, replace `podman` with `docker` in all commands.
 Download test data
 We will use a real dataset from *Drosophila melanogaster* (Ohtani et al., 2013), already used in the original TEcandidates publication.
 ```
+
 ### 1. Create a `test/` folder
 
 ```bash
