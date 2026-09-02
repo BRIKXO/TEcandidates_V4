@@ -38,7 +38,7 @@ git clone https://github.com/BRIKXO/TEcandidates_V4.git
 cd TEcandidates_V4
 podman build -t tecandidates:latest .
 
-# TEcandidates — Test Dataset and Pipeline
+TEcandidates — Test Dataset and Pipeline
 
 If you prefer Docker, replace `podman` with `docker` in all commands.
 
