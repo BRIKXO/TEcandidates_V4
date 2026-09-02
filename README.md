@@ -53,7 +53,7 @@ mkdir -p test
 cd test
 ```
 
-### 2. Download the reference genome (dm3)
+### 2. Download the reference genome (dm3) and prepare TE annotation
 
 Download the *Drosophila melanogaster* reference genome (dm3):
 
@@ -66,6 +66,11 @@ This will produce `dm3.fa`. Rename it to `dm3.fasta` if necessary:
 
 ```bash
 mv dm3.fa dm3.fasta
+```
+Now, copy the TE annotation file from the repository to the test/ folder:
+
+```bash
+cp ../dm3_rmsk_TE.gff3 .
 ```
 
 ### 3. Download the RNA-seq reads (FASTQ) using SRA Toolkit
