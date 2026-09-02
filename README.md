@@ -45,7 +45,7 @@ If you prefer Docker, replace `podman` with `docker` in all commands.
 Download test data
 We will use a real dataset from *Drosophila melanogaster* (Ohtani et al., 2013), already used in the original TEcandidates publication.
 ```
-
+```
 ### 1. Create a `test/` folder
 
 ```bash
