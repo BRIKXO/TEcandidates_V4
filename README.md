@@ -177,7 +177,10 @@ you will find:
 
 ## Contact
 
-For questions or issues, please open an issue in this repository.
+- Gonzalo Riadi – griadi@utalca.cl
+- Cristóbal Briceño – cbriceno20@alumnos.utalca.cl
+
+You can also open an issue in this repository.
 
 ---
 
