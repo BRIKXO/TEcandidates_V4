@@ -183,4 +183,6 @@ For questions or issues, please open an issue in this repository.
 
 ## References
 
-Ohtani H, Iwasaki YW, Shibuya A, Siomi H, Siomi MC, Saito K. (2013). DmGTSF1 is necessary for Piwi-piRISC-mediated transcriptional transposon silencing in the *Drosophila* ovary. *Genes Dev.* 27(15):1656–61. doi: [10.1101/gad.221515.113](https://doi.org/10.1101/gad.221515.113)
+- TEcandidates. (2018). TEcandidates: pipeline for transposable element expression analysis [Software]. GitHub. https://github.com/mobilomics/TEcandidates
+
+- Ohtani H, Iwasaki YW, Shibuya A, Siomi H, Siomi MC, Saito K. (2013). DmGTSF1 is necessary for Piwi-piRISC-mediated transcriptional transposon silencing in the *Drosophila* ovary. *Genes Dev.* 27(15):1656–61. doi: [10.1101/gad.221515.113](https://doi.org/10.1101/gad.221515.113)
